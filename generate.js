@@ -97,9 +97,14 @@ let registry = new ComponentRegistry();
 
 // Convert JSDoc {@link url text} to markdown [text](url)
 function convertJsDocLinks(str) {
-  return str.replace(/\{@link\s+([^\s}]+)(?:\s([^}]*))?\}/g, (_, url, text) =>
-    text ? `[${text.trim()}](${url})` : `[${url}](${url})`,
-  );
+  return str.replace(/\{@link\s([^}]*)\}/g, (_, content) => {
+    const trimmed = content.trim();
+    const spaceIdx = trimmed.indexOf(' ');
+    if (spaceIdx === -1) return `[${trimmed}](${trimmed})`;
+    const url = trimmed.substring(0, spaceIdx);
+    const text = trimmed.substring(spaceIdx + 1).trim();
+    return text ? `[${text}](${url})` : `[${url}](${url})`;
+  });
 }
 
 // Extract inline properties + required from a branch (plain object or allOf wrapper)
