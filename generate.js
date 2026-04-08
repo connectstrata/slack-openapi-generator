@@ -97,7 +97,7 @@ let registry = new ComponentRegistry();
 
 // Convert JSDoc {@link url text} to markdown [text](url)
 function convertJsDocLinks(str) {
-  return str.replace(/\{@link\s+(\S+?)(?:\s+([^}]*))?\}/g, (_, url, text) =>
+  return str.replace(/\{@link\s+([^\s}]+)(?:\s+([^}]*))?\}/g, (_, url, text) =>
     text ? `[${text.trim()}](${url})` : `[${url}](${url})`,
   );
 }
