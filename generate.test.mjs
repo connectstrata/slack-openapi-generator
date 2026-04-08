@@ -237,6 +237,31 @@ describe('convertUnion', () => {
     expect(result.allOf[1].anyOf).toBeDefined();
   });
 
+  it('does not collapse types with extra schema properties into type array', () => {
+    // format should be preserved, not collapsed to just ["string", "string"]
+    const types = [{ type: 'string' }, { type: 'string', format: 'binary' }];
+    expect(convertUnion(types)).toEqual({
+      anyOf: [{ type: 'string' }, { type: 'string', format: 'binary' }],
+    });
+  });
+
+  it('does not collapse types with additionalProperties into type array', () => {
+    const types = [
+      { type: 'null' },
+      { type: 'object', additionalProperties: { type: 'string' } },
+    ];
+    expect(convertUnion(types)).toEqual({ anyOf: types });
+  });
+
+  it('does not collapse types with maxItems into type array', () => {
+    const types = [
+      { type: 'null' },
+      { type: 'object', additionalProperties: { type: 'string' } },
+      { type: 'array', maxItems: 0 },
+    ];
+    expect(convertUnion(types)).toEqual({ anyOf: types });
+  });
+
   it('hoists common inline properties from anyOf branches', () => {
     const types = [
       {
@@ -584,6 +609,26 @@ describe('type mapping integration', () => {
         type: 'array',
         items: { anyOf: [{ type: 'string' }, { type: 'number' }] },
       });
+    });
+
+    it('maps empty tuple to array with maxItems 0', () => {
+      expect(shapeOf('type T = [];', 'T')).toEqual({
+        type: 'array',
+        maxItems: 0,
+      });
+    });
+
+    it('preserves empty tuple branch in union', () => {
+      const result = shapeOf(
+        'type T = { [key: string]: { value: string; alt: string } } | [] | null;',
+        'T',
+      );
+      expect(result.anyOf).toBeDefined();
+      expect(result.anyOf).toContainEqual({ type: 'null' });
+      expect(result.anyOf).toContainEqual({ type: 'array', maxItems: 0 });
+      const objBranch = result.anyOf.find((b) => b.type === 'object');
+      expect(objBranch).toBeDefined();
+      expect(objBranch.additionalProperties).toBeDefined();
     });
   });
 
