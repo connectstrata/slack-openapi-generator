@@ -1,0 +1,36 @@
+{
+  "name": "slack-openapi-generator",
+  "version": "1.0.0",
+  "description": "Auto-generate an OpenAPI 3.1 spec from the official Slack Node SDK via TypeScript AST analysis",
+  "main": "generate.js",
+  "scripts": {
+    "generate": "node generate.js",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "slack",
+    "openapi",
+    "swagger",
+    "code-generation",
+    "typescript",
+    "ast"
+  ],
+  "author": "Strata",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@slack/bolt": "4.6.0",
+    "@slack/types": "2.14.0",
+    "@slack/web-api": "7.9.1",
+    "ts-morph": "27.0.2",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "vitest": "^4.1.3"
+  }
+}

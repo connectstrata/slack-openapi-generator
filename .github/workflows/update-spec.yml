@@ -1,0 +1,43 @@
+name: Auto-Update Slack OpenAPI Spec
+
+on:
+  schedule:
+    # Run at 00:00 every Monday
+    - cron: '0 0 * * 1'
+  workflow_dispatch: # Allows you to run it manually from the Actions tab
+
+jobs:
+  update-spec:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Latest Dependencies
+        # This guarantees we always parse the absolute latest Slack SDK
+        run: |
+          npm install ts-morph
+          npm install @slack/web-api@latest @slack/bolt@latest @slack/types@latest
+
+      - name: Run AST Generator
+        run: node generate.js ./slack-openapi-spec.json
+
+      - name: Check for Changes
+        id: git-check
+        run: |
+          git diff --quiet || echo "changes=true" >> $GITHUB_ENV
+
+      - name: Commit and Push Updates
+        if: env.changes == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add slack-openapi-spec.json
+          git commit -m "🤖 Auto-update Slack OpenAPI spec to latest SDK version"
+          git push
