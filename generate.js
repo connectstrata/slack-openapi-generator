@@ -260,7 +260,7 @@ function convertUnion(mappedTypes) {
   if (
     uniqueTypes.every(
       (t) =>
-        typeof t.type === 'string' && !t.enum && !t.items && !t.properties && !t.$ref && !t.anyOf,
+        typeof t.type === 'string' && Object.keys(t).length === 1,
     )
   ) {
     return { type: [...new Set(uniqueTypes.map((t) => t.type))] };
@@ -436,6 +436,9 @@ function computeSchemaShape(tsType, referenceNode, depth) {
       .getTupleElements()
       .map((t) => mapTsTypeToOpenApi(t, referenceNode, depth + 1));
     const unique = [...new Map(mapped.map((item) => [JSON.stringify(item), item])).values()];
+    if (unique.length === 0) {
+      return { type: 'array', maxItems: 0 };
+    }
     return {
       type: 'array',
       items: unique.length === 1 ? unique[0] : { anyOf: unique },

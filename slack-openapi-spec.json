@@ -6659,6 +6659,11 @@
               "schema": {
                 "$ref": "#/components/schemas/FilesUploadArguments"
               }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/FilesUploadArguments"
+              }
             }
           }
         },
@@ -55430,8 +55435,14 @@
         "type": "object",
         "properties": {
           "file": {
-            "type": [
-              "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string",
+                "format": "binary"
+              }
             ],
             "description": "File contents as a `Buffer` or `Stream`.\nIf providing a `string`, this parameter will be interpreted as a _path_ to a file, which will be read from disk\nbefore uploading. If omitted, you must provide the `content` argument."
           }
@@ -96139,9 +96150,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "anyOf": []
-                        }
+                        "maxItems": 0
                       }
                     ]
                   }
@@ -96577,9 +96586,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "anyOf": []
-                        }
+                        "maxItems": 0
                       },
                       {
                         "type": "object",
@@ -96969,9 +96976,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "anyOf": []
-                        }
+                        "maxItems": 0
                       },
                       {
                         "type": "object",
@@ -97363,9 +97368,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "anyOf": []
-                        }
+                        "maxItems": 0
                       },
                       {
                         "type": "object",
@@ -97751,9 +97754,7 @@
                       },
                       {
                         "type": "array",
-                        "items": {
-                          "anyOf": []
-                        }
+                        "maxItems": 0
                       },
                       {
                         "type": "object",
