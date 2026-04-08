@@ -97,14 +97,32 @@ let registry = new ComponentRegistry();
 
 // Convert JSDoc {@link url text} to markdown [text](url)
 function convertJsDocLinks(str) {
-  return str.replace(/\{@link\s([^}]*)\}/g, (_, content) => {
-    const trimmed = content.trim();
-    const spaceIdx = trimmed.indexOf(' ');
-    if (spaceIdx === -1) return `[${trimmed}](${trimmed})`;
-    const url = trimmed.substring(0, spaceIdx);
-    const text = trimmed.substring(spaceIdx + 1).trim();
-    return text ? `[${text}](${url})` : `[${url}](${url})`;
-  });
+  const TAG = '{@link';
+  let result = '';
+  let pos = 0;
+  let start;
+  while ((start = str.indexOf(TAG, pos)) !== -1) {
+    result += str.substring(pos, start);
+    const afterTag = start + TAG.length;
+    const end = str.indexOf('}', afterTag);
+    if (end === -1) {
+      result += str.substring(start);
+      pos = str.length;
+      break;
+    }
+    const inner = str.substring(afterTag, end).trim();
+    const spaceIdx = inner.indexOf(' ');
+    if (spaceIdx === -1) {
+      result += `[${inner}](${inner})`;
+    } else {
+      const url = inner.substring(0, spaceIdx);
+      const text = inner.substring(spaceIdx + 1).trim();
+      result += text ? `[${text}](${url})` : `[${url}](${url})`;
+    }
+    pos = end + 1;
+  }
+  result += str.substring(pos);
+  return result;
 }
 
 // Extract inline properties + required from a branch (plain object or allOf wrapper)
