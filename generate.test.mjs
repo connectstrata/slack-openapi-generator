@@ -246,10 +246,7 @@ describe('convertUnion', () => {
   });
 
   it('does not collapse types with additionalProperties into type array', () => {
-    const types = [
-      { type: 'null' },
-      { type: 'object', additionalProperties: { type: 'string' } },
-    ];
+    const types = [{ type: 'null' }, { type: 'object', additionalProperties: { type: 'string' } }];
     expect(convertUnion(types)).toEqual({ anyOf: types });
   });
 

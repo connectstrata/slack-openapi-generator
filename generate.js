@@ -257,12 +257,7 @@ function convertUnion(mappedTypes) {
   }
 
   // OpenAPI 3.1: Collapse simple primitives into a type array (e.g., ["string", "null"])
-  if (
-    uniqueTypes.every(
-      (t) =>
-        typeof t.type === 'string' && Object.keys(t).length === 1,
-    )
-  ) {
+  if (uniqueTypes.every((t) => typeof t.type === 'string' && Object.keys(t).length === 1)) {
     return { type: [...new Set(uniqueTypes.map((t) => t.type))] };
   }
 
