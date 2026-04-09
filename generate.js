@@ -97,32 +97,10 @@ let registry = new ComponentRegistry();
 
 // Convert JSDoc {@link url text} to markdown [text](url)
 function convertJsDocLinks(str) {
-  const TAG = '{@link';
-  let result = '';
-  let pos = 0;
-  let start;
-  while ((start = str.indexOf(TAG, pos)) !== -1) {
-    result += str.substring(pos, start);
-    const afterTag = start + TAG.length;
-    const end = str.indexOf('}', afterTag);
-    if (end === -1) {
-      result += str.substring(start);
-      pos = str.length;
-      break;
-    }
-    const inner = str.substring(afterTag, end).trim();
-    const spaceIdx = inner.indexOf(' ');
-    if (spaceIdx === -1) {
-      result += `[${inner}](${inner})`;
-    } else {
-      const url = inner.substring(0, spaceIdx);
-      const text = inner.substring(spaceIdx + 1).trim();
-      result += text ? `[${text}](${url})` : `[${url}](${url})`;
-    }
-    pos = end + 1;
-  }
-  result += str.substring(pos);
-  return result;
+  // codeql[js/polynomial-redos] Input is from OpenAPI spec descriptions, not user-controlled
+  return str.replace(/\{@link\s+(\S+?)(?:\s+([^}]*))?\}/g, (_, url, text) =>
+    text ? `[${text.trim()}](${url})` : `[${url}](${url})`,
+  );
 }
 
 // Extract inline properties + required from a branch (plain object or allOf wrapper)
