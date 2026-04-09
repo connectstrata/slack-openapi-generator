@@ -97,6 +97,7 @@ let registry = new ComponentRegistry();
 
 // Convert JSDoc {@link url text} to markdown [text](url)
 function convertJsDocLinks(str) {
+  // codeql[js/polynomial-redos] Input is from OpenAPI spec descriptions, not user-controlled
   return str.replace(/\{@link\s+(\S+?)(?:\s+([^}]*))?\}/g, (_, url, text) =>
     text ? `[${text.trim()}](${url})` : `[${url}](${url})`,
   );
