@@ -2,8 +2,12 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Slack Web API & Events API (Strict SDK Generation)",
-    "version": "2026-04-08",
-    "description": "Generated 100% offline directly from the TypeScript AST of the official Node SDK."
+    "version": "2026-04-11",
+    "description": "Generated 100% offline directly from the TypeScript AST of the official Node SDK. See the generator repo for details: https://github.com/connectstrata/slack-openapi-generator"
+  },
+  "externalDocs": {
+    "description": "Generator source code and documentation",
+    "url": "https://github.com/connectstrata/slack-openapi-generator"
   },
   "servers": [
     {

@@ -769,7 +769,11 @@ function assembleSpec(paths, webhooks) {
       title: 'Slack Web API & Events API (Strict SDK Generation)',
       version: new Date().toISOString().split('T')[0],
       description:
-        'Generated 100% offline directly from the TypeScript AST of the official Node SDK.',
+        'Generated 100% offline directly from the TypeScript AST of the official Node SDK. See the generator repo for details: https://github.com/connectstrata/slack-openapi-generator',
+    },
+    externalDocs: {
+      description: 'Generator source code and documentation',
+      url: 'https://github.com/connectstrata/slack-openapi-generator',
     },
     servers: [{ url: 'https://slack.com' }],
     security: [{ slackAuth: [] }],
