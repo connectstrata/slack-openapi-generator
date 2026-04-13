@@ -26,7 +26,7 @@ jobs:
       - name: Install Latest Dependencies
         # This guarantees we always parse the absolute latest Slack SDK
         run: |
-          npm install ts-morph
+          npm install
           npm install @slack/web-api@latest @slack/bolt@latest @slack/types@latest
 
       - name: Run AST Generator
@@ -46,7 +46,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
-          git add slack-openapi-spec.json
+          git add slack-openapi-spec.json package.json package-lock.json
           git commit -m "🤖 Auto-update Slack OpenAPI spec to latest SDK version"
           git push -u origin "$BRANCH"
           gh pr create \
