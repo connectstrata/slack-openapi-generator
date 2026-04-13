@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-spec:
@@ -36,11 +37,19 @@ jobs:
         run: |
           git diff --quiet || echo "changes=true" >> $GITHUB_ENV
 
-      - name: Commit and Push Updates
+      - name: Create Pull Request
         if: env.changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          BRANCH="auto-update-slack-spec-$(date +%Y%m%d)-${{ github.run_id }}"
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
           git add slack-openapi-spec.json
           git commit -m "🤖 Auto-update Slack OpenAPI spec to latest SDK version"
-          git push
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "🤖 Auto-update Slack OpenAPI spec" \
+            --body "Automated update of the Slack OpenAPI spec based on the latest \`@slack/web-api\` SDK." \
+            --base main
