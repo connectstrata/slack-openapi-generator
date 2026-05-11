@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Slack Web API & Events API (Strict SDK Generation)",
-    "version": "2026-04-27",
+    "version": "2026-05-11",
     "description": "Generated 100% offline directly from the TypeScript AST of the official Node SDK. See the generator repo for details: https://github.com/connectstrata/slack-openapi-generator"
   },
   "externalDocs": {
@@ -25118,6 +25118,18 @@
             },
             "description": "The list of messages to rotate through as a loading indicator."
           },
+          "icon_emoji": {
+            "type": "string",
+            "description": "Emoji to use as the icon for this message. Overrides `icon_url`.\ne.g. `:chart_with_upwards_trend:`"
+          },
+          "icon_url": {
+            "type": "string",
+            "description": "Image URL to use as the icon for this message.\ne.g. `http://lorempixel.com/48/48`"
+          },
+          "username": {
+            "type": "string",
+            "description": "The bot's username to display.\ne.g. `My Bot`"
+          },
           "token": {
             "type": "string",
             "description": "Overridable authentication token bearing required scopes."
@@ -29352,6 +29364,9 @@
       "AnyChunk": {
         "anyOf": [
           {
+            "$ref": "#/components/schemas/BlocksChunk"
+          },
+          {
             "$ref": "#/components/schemas/MarkdownTextChunk"
           },
           {
@@ -29362,905 +29377,152 @@
           }
         ]
       },
-      "MarkdownTextChunk": {
+      "BlocksChunk": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
             "enum": [
-              "markdown_text"
+              "blocks"
             ]
           },
-          "text": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "text"
-        ]
-      },
-      "PlanUpdateChunk": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "plan_update"
-            ]
-          },
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "title"
-        ]
-      },
-      "TaskUpdateChunk": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "task_update"
-            ]
-          },
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "error",
-              "pending",
-              "in_progress",
-              "complete"
-            ]
-          },
-          "details": {
-            "type": "string"
-          },
-          "output": {
-            "type": "string"
-          },
-          "sources": {
+          "blocks": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/URLSourceElement"
-            }
+              "$ref": "#/components/schemas/AnyBlock"
+            },
+            "description": "An array of [AnyBlock](AnyBlock) objects. Maximum of 50 blocks."
           }
         },
         "required": [
           "type",
-          "id",
-          "title",
-          "status"
+          "blocks"
         ]
       },
-      "URLSourceElement": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "url"
-            ],
-            "description": "The type of element. In this case `type` is always `url`."
-          },
-          "url": {
-            "type": "string",
-            "description": "The URL type source."
-          },
-          "text": {
-            "type": "string",
-            "description": "Display text for the URL."
-          }
-        },
-        "required": [
-          "type",
-          "url",
-          "text"
-        ]
-      },
-      "ChatAppendStreamResponse": {
-        "allOf": [
+      "AnyBlock": {
+        "anyOf": [
           {
-            "$ref": "#/components/schemas/WebAPICallResult"
+            "$ref": "#/components/schemas/ActionsBlock"
           },
           {
-            "type": "object",
-            "properties": {
-              "channel": {
-                "type": "string"
-              },
-              "error": {
-                "type": "string"
-              },
-              "needed": {
-                "type": "string"
-              },
-              "ok": {
-                "anyOf": [
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      false
-                    ]
-                  },
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      true
-                    ]
-                  }
-                ]
-              },
-              "provided": {
-                "type": "string"
-              },
-              "ts": {
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "ChatDeleteArguments": {
-        "type": "object",
-        "properties": {
-          "ts": {
-            "type": "string",
-            "description": "Timestamp of the message."
-          },
-          "channel": {
-            "type": "string",
-            "description": "Channel ID for the message."
-          },
-          "as_user": {
-            "anyOf": [
-              {
-                "type": "boolean",
-                "enum": [
-                  false
-                ]
-              },
-              {
-                "type": "boolean",
-                "enum": [
-                  true
-                ]
-              }
-            ],
-            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
-          },
-          "token": {
-            "type": "string",
-            "description": "Overridable authentication token bearing required scopes."
-          }
-        },
-        "required": [
-          "ts",
-          "channel"
-        ]
-      },
-      "ChatDeleteResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/WebAPICallResult"
+            "$ref": "#/components/schemas/Block"
           },
           {
-            "type": "object",
-            "properties": {
-              "channel": {
-                "type": "string"
-              },
-              "error": {
-                "type": "string"
-              },
-              "needed": {
-                "type": "string"
-              },
-              "ok": {
-                "anyOf": [
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      false
-                    ]
-                  },
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      true
-                    ]
-                  }
-                ]
-              },
-              "provided": {
-                "type": "string"
-              },
-              "ts": {
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "ChatDeleteScheduledMessageArguments": {
-        "type": "object",
-        "properties": {
-          "scheduled_message_id": {
-            "type": "string",
-            "description": "The `scheduled_message_id` returned from call to [`chat.scheduleMessage`](https://docs.slack.dev/reference/methods/chat.scheduleMessage)."
-          },
-          "channel": {
-            "type": "string",
-            "description": "Channel ID for the message."
-          },
-          "as_user": {
-            "anyOf": [
-              {
-                "type": "boolean",
-                "enum": [
-                  false
-                ]
-              },
-              {
-                "type": "boolean",
-                "enum": [
-                  true
-                ]
-              }
-            ],
-            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
-          },
-          "token": {
-            "type": "string",
-            "description": "Overridable authentication token bearing required scopes."
-          }
-        },
-        "required": [
-          "scheduled_message_id",
-          "channel"
-        ]
-      },
-      "ChatDeleteScheduledMessageResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/WebAPICallResult"
+            "$ref": "#/components/schemas/AlertBlock"
           },
           {
-            "type": "object",
-            "properties": {
-              "error": {
-                "type": "string"
-              },
-              "needed": {
-                "type": "string"
-              },
-              "ok": {
-                "anyOf": [
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      false
-                    ]
-                  },
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      true
-                    ]
-                  }
-                ]
-              },
-              "provided": {
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "ChatGetPermalinkArguments": {
-        "type": "object",
-        "properties": {
-          "message_ts": {
-            "type": "string",
-            "description": "Timestamp of the message."
-          },
-          "channel": {
-            "type": "string",
-            "description": "Channel ID for the message."
-          },
-          "token": {
-            "type": "string",
-            "description": "Overridable authentication token bearing required scopes."
-          }
-        },
-        "required": [
-          "message_ts",
-          "channel"
-        ]
-      },
-      "ChatGetPermalinkResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/WebAPICallResult"
+            "$ref": "#/components/schemas/CardBlock"
           },
           {
-            "type": "object",
-            "properties": {
-              "channel": {
-                "type": "string"
-              },
-              "error": {
-                "type": "string"
-              },
-              "needed": {
-                "type": "string"
-              },
-              "ok": {
-                "anyOf": [
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      false
-                    ]
-                  },
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      true
-                    ]
-                  }
-                ]
-              },
-              "permalink": {
-                "type": "string"
-              },
-              "provided": {
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "ChatMeMessageArguments": {
-        "type": "object",
-        "properties": {
-          "channel": {
-            "type": "string",
-            "description": "Channel ID for the message."
-          },
-          "text": {
-            "type": "string",
-            "description": "Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used\nas fallback text for notifications only."
-          },
-          "token": {
-            "type": "string",
-            "description": "Overridable authentication token bearing required scopes."
-          }
-        },
-        "required": [
-          "channel",
-          "text"
-        ]
-      },
-      "ChatMeMessageResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/WebAPICallResult"
+            "$ref": "#/components/schemas/CarouselBlock"
           },
           {
-            "type": "object",
-            "properties": {
-              "channel": {
-                "type": "string"
-              },
-              "error": {
-                "type": "string"
-              },
-              "needed": {
-                "type": "string"
-              },
-              "ok": {
-                "anyOf": [
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      false
-                    ]
-                  },
-                  {
-                    "type": "boolean",
-                    "enum": [
-                      true
-                    ]
-                  }
-                ]
-              },
-              "provided": {
-                "type": "string"
-              },
-              "ts": {
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "ChatPostEphemeralArguments": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Parse"
+            "$ref": "#/components/schemas/ContextBlock"
           },
           {
-            "$ref": "#/components/schemas/LinkNames"
+            "$ref": "#/components/schemas/ContextActionsBlock"
           },
           {
-            "$ref": "#/components/schemas/Partial_ThreadTS"
+            "$ref": "#/components/schemas/DividerBlock"
+          },
+          {
+            "$ref": "#/components/schemas/FileBlock"
+          },
+          {
+            "$ref": "#/components/schemas/HeaderBlock"
           },
           {
             "allOf": [
               {
                 "type": "object",
                 "properties": {
-                  "user": {
+                  "type": {
                     "type": "string",
-                    "description": "`id` of the user who will receive the ephemeral message.\nThe user should be in the channel specified by the `channel` argument."
+                    "enum": [
+                      "image"
+                    ],
+                    "description": "The type of block. For an image block, `type` is always `image`."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
+                  },
+                  "title": {
+                    "$ref": "#/components/schemas/PlainTextElement",
+                    "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
                   }
                 },
                 "required": [
-                  "user"
+                  "type",
+                  "alt_text"
                 ]
               },
               {
-                "anyOf": [
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndText"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconEmoji"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
+                "$ref": "#/components/schemas/Block"
+              },
+              {
+                "$ref": "#/components/schemas/UrlImageObject"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image"
+                    ],
+                    "description": "The type of block. For an image block, `type` is always `image`."
                   },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndText"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconURL"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
+                  "alt_text": {
+                    "type": "string",
+                    "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
                   },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndText"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "as_user": {
-                            "type": "boolean",
-                            "enum": [
-                              true
-                            ],
-                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
-                          }
-                        },
-                        "required": [
-                          "as_user"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndBlocks"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconEmoji"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndBlocks"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconURL"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndBlocks"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "as_user": {
-                            "type": "boolean",
-                            "enum": [
-                              true
-                            ],
-                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
-                          }
-                        },
-                        "required": [
-                          "as_user"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndAttachments"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconEmoji"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndAttachments"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconURL"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndAttachments"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "as_user": {
-                            "type": "boolean",
-                            "enum": [
-                              true
-                            ],
-                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
-                          }
-                        },
-                        "required": [
-                          "as_user"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndMarkdownText"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconEmoji"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndMarkdownText"
-                      },
-                      {
-                        "$ref": "#/components/schemas/IconURL"
-                      },
-                      {
-                        "$ref": "#/components/schemas/Username"
-                      }
-                    ]
-                  },
-                  {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/ChannelAndMarkdownText"
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "as_user": {
-                            "type": "boolean",
-                            "enum": [
-                              true
-                            ],
-                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
-                          }
-                        },
-                        "required": [
-                          "as_user"
-                        ]
-                      }
-                    ]
+                  "title": {
+                    "$ref": "#/components/schemas/PlainTextElement",
+                    "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
                   }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "ChannelAndText": {
-        "type": "object",
-        "properties": {
-          "channel": {
-            "type": "string",
-            "description": "Channel ID for the message."
-          },
-          "text": {
-            "type": "string",
-            "description": "Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used\nas fallback text for notifications only."
-          }
-        },
-        "required": [
-          "channel",
-          "text"
-        ]
-      },
-      "IconEmoji": {
-        "type": "object",
-        "properties": {
-          "as_user": {
-            "type": "boolean",
-            "enum": [
-              false
-            ]
-          },
-          "icon_emoji": {
-            "type": "string",
-            "description": "Emoji to use as the icon for this message. Overrides `icon_url`.\nCan only be used with `as_user` set to `false`."
-          }
-        }
-      },
-      "Username": {
-        "type": "object",
-        "properties": {
-          "as_user": {
-            "type": "boolean",
-            "enum": [
-              false
-            ]
-          },
-          "username": {
-            "type": "string",
-            "description": "Set your bot's username. Can only be used with `as_user` set to `false`."
-          }
-        }
-      },
-      "Parse": {
-        "type": "object",
-        "properties": {
-          "parse": {
-            "type": "string",
-            "enum": [
-              "none",
-              "full"
-            ],
-            "description": "Change how messages are treated. Defaults to `none`.\n[Formatting: Automatic parsing](https://docs.slack.dev/messaging/formatting-message-text)."
-          }
-        }
-      },
-      "LinkNames": {
-        "type": "object",
-        "properties": {
-          "link_names": {
-            "anyOf": [
-              {
-                "type": "boolean",
-                "enum": [
-                  false
+                },
+                "required": [
+                  "type",
+                  "alt_text"
                 ]
               },
               {
-                "type": "boolean",
-                "enum": [
-                  true
-                ]
+                "$ref": "#/components/schemas/Block"
+              },
+              {
+                "$ref": "#/components/schemas/SlackFileImageObject"
               }
-            ],
-            "description": "Find and link channel names and usernames."
-          }
-        }
-      },
-      "Partial_ThreadTS": {
-        "type": "object",
-        "properties": {
-          "thread_ts": {
-            "type": "string",
-            "description": "Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts`\nvalue; use its parent's value instead."
-          }
-        }
-      },
-      "IconURL": {
-        "type": "object",
-        "properties": {
-          "as_user": {
-            "type": "boolean",
-            "enum": [
-              false
             ]
           },
-          "icon_url": {
-            "type": "string",
-            "description": "URL to an image to use as the icon for this message. `icon_emoji` takes precendence over this field.\nCan only be used with `as_user` set to `false`."
-          }
-        }
-      },
-      "ChannelAndBlocks": {
-        "type": "object",
-        "properties": {
-          "blocks": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/ActionsBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/Block"
-                },
-                {
-                  "$ref": "#/components/schemas/ContextBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/ContextActionsBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/DividerBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/FileBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/HeaderBlock"
-                },
-                {
-                  "allOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "image"
-                          ],
-                          "description": "The type of block. For an image block, `type` is always `image`."
-                        },
-                        "alt_text": {
-                          "type": "string",
-                          "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
-                        },
-                        "title": {
-                          "$ref": "#/components/schemas/PlainTextElement",
-                          "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
-                        }
-                      },
-                      "required": [
-                        "type",
-                        "alt_text"
-                      ]
-                    },
-                    {
-                      "$ref": "#/components/schemas/Block"
-                    },
-                    {
-                      "$ref": "#/components/schemas/UrlImageObject"
-                    }
-                  ]
-                },
-                {
-                  "allOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "image"
-                          ],
-                          "description": "The type of block. For an image block, `type` is always `image`."
-                        },
-                        "alt_text": {
-                          "type": "string",
-                          "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
-                        },
-                        "title": {
-                          "$ref": "#/components/schemas/PlainTextElement",
-                          "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
-                        }
-                      },
-                      "required": [
-                        "type",
-                        "alt_text"
-                      ]
-                    },
-                    {
-                      "$ref": "#/components/schemas/Block"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SlackFileImageObject"
-                    }
-                  ]
-                },
-                {
-                  "$ref": "#/components/schemas/InputBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/MarkdownBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/RichTextBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/SectionBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/TableBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/TaskCardBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/PlanBlock"
-                },
-                {
-                  "$ref": "#/components/schemas/VideoBlock"
-                }
-              ]
-            },
-            "description": "An array of structured Blocks.\n[Blocks reference](https://docs.slack.dev/reference/block-kit/blocks)."
+          {
+            "$ref": "#/components/schemas/InputBlock"
           },
-          "channel": {
-            "type": "string",
-            "description": "Channel ID for the message."
+          {
+            "$ref": "#/components/schemas/MarkdownBlock"
           },
-          "text": {
-            "type": "string",
-            "description": "Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used\nas fallback text for notifications only."
+          {
+            "$ref": "#/components/schemas/RichTextBlock"
+          },
+          {
+            "$ref": "#/components/schemas/SectionBlock"
+          },
+          {
+            "$ref": "#/components/schemas/TableBlock"
+          },
+          {
+            "$ref": "#/components/schemas/TaskCardBlock"
+          },
+          {
+            "$ref": "#/components/schemas/PlanBlock"
+          },
+          {
+            "$ref": "#/components/schemas/VideoBlock"
           }
-        },
-        "required": [
-          "blocks",
-          "channel"
         ]
       },
       "ActionsBlock": {
@@ -33136,6 +32398,244 @@
           "type"
         ]
       },
+      "AlertBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "alert"
+            ],
+            "description": "The type of block. For an alert block, `type` is always `alert`."
+          },
+          "text": {
+            "$ref": "#/components/schemas/TextObject",
+            "description": "The alert message content in the form of a [TextObject](TextObject)."
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "info",
+              "error",
+              "default",
+              "warning",
+              "success"
+            ],
+            "description": "The severity level of the alert. Defaults to `\"default\"` if omitted."
+          },
+          "block_id": {
+            "type": "string",
+            "description": "A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.\nYou can use this `block_id` when you receive an interaction payload to\n[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).\nMaximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of\na message. If a message is updated, use a new `block_id`."
+          }
+        },
+        "required": [
+          "type",
+          "text"
+        ]
+      },
+      "TextObject": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PlainTextElement"
+          },
+          {
+            "$ref": "#/components/schemas/MrkdwnElement"
+          }
+        ]
+      },
+      "CardBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "card"
+            ],
+            "description": "The type of block. For a card block, `type` is always `card`."
+          },
+          "hero_image": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image"
+                    ],
+                    "description": "The type of element. In this case `type` is always `image`."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "description": "A plain-text summary of the image. This should not contain any markup."
+                  }
+                },
+                "required": [
+                  "type",
+                  "alt_text"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/UrlImageObject"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SlackFileImageObject"
+                  }
+                ]
+              }
+            ],
+            "description": "A top banner image for the card in the form of an [ImageElement](ImageElement)."
+          },
+          "icon": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image"
+                    ],
+                    "description": "The type of element. In this case `type` is always `image`."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "description": "A plain-text summary of the image. This should not contain any markup."
+                  }
+                },
+                "required": [
+                  "type",
+                  "alt_text"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/UrlImageObject"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SlackFileImageObject"
+                  }
+                ]
+              }
+            ],
+            "description": "A small icon displayed next to the title and subtitle in the form of an [ImageElement](ImageElement)."
+          },
+          "title": {
+            "$ref": "#/components/schemas/MrkdwnElement",
+            "description": "The title of the card in the form of a [MrkdwnElement](MrkdwnElement).\nMaximum length for the text in this field is 150 characters."
+          },
+          "subtitle": {
+            "$ref": "#/components/schemas/MrkdwnElement",
+            "description": "The subtitle of the card in the form of a [MrkdwnElement](MrkdwnElement).\nMaximum length for the text in this field is 150 characters."
+          },
+          "body": {
+            "$ref": "#/components/schemas/MrkdwnElement",
+            "description": "The body text of the card in the form of a [MrkdwnElement](MrkdwnElement).\nMaximum length for the text in this field is 200 characters."
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Button"
+            },
+            "description": "An array of [Button](Button) elements displayed at the bottom of the card."
+          },
+          "block_id": {
+            "type": "string",
+            "description": "A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.\nYou can use this `block_id` when you receive an interaction payload to\n[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).\nMaximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of\na message. If a message is updated, use a new `block_id`."
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "UrlImageObject": {
+        "type": "object",
+        "properties": {
+          "image_url": {
+            "type": "string",
+            "description": "The URL of the image to be displayed."
+          }
+        },
+        "required": [
+          "image_url"
+        ]
+      },
+      "SlackFileImageObject": {
+        "type": "object",
+        "properties": {
+          "slack_file": {
+            "$ref": "#/components/schemas/SlackFile",
+            "description": "The slack file of the image to be displayed."
+          }
+        },
+        "required": [
+          "slack_file"
+        ]
+      },
+      "SlackFile": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/SlackFileViaUrl"
+          },
+          {
+            "$ref": "#/components/schemas/SlackFileViaId"
+          }
+        ]
+      },
+      "SlackFileViaUrl": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "This URL can be the `url_private` or the `permalink` of the [file https://docs.slack.dev/reference/objects/file-object](Slack)."
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "SlackFileViaId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "`id` of the [file https://docs.slack.dev/reference/objects/file-objecte](Slack)."
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "CarouselBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "carousel"
+            ],
+            "description": "The type of block. For a carousel block, `type` is always `carousel`."
+          },
+          "elements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CardBlock"
+            },
+            "description": "An array of [CardBlock](CardBlock) elements. Minimum 1, maximum 10 cards."
+          },
+          "block_id": {
+            "type": "string",
+            "description": "A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.\nYou can use this `block_id` when you receive an interaction payload to\n[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).\nMaximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of\na message. If a message is updated, use a new `block_id`."
+          }
+        },
+        "required": [
+          "type",
+          "elements"
+        ]
+      },
       "ContextBlock": {
         "type": "object",
         "properties": {
@@ -33225,64 +32725,6 @@
               }
             ]
           }
-        ]
-      },
-      "UrlImageObject": {
-        "type": "object",
-        "properties": {
-          "image_url": {
-            "type": "string",
-            "description": "The URL of the image to be displayed."
-          }
-        },
-        "required": [
-          "image_url"
-        ]
-      },
-      "SlackFileImageObject": {
-        "type": "object",
-        "properties": {
-          "slack_file": {
-            "$ref": "#/components/schemas/SlackFile",
-            "description": "The slack file of the image to be displayed."
-          }
-        },
-        "required": [
-          "slack_file"
-        ]
-      },
-      "SlackFile": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/SlackFileViaUrl"
-          },
-          {
-            "$ref": "#/components/schemas/SlackFileViaId"
-          }
-        ]
-      },
-      "SlackFileViaUrl": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
-            "description": "This URL can be the `url_private` or the `permalink` of the [file https://docs.slack.dev/reference/objects/file-object](Slack)."
-          }
-        },
-        "required": [
-          "url"
-        ]
-      },
-      "SlackFileViaId": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "`id` of the [file https://docs.slack.dev/reference/objects/file-objecte](Slack)."
-          }
-        },
-        "required": [
-          "id"
         ]
       },
       "ContextActionsBlock": {
@@ -34089,16 +33531,6 @@
           "type"
         ]
       },
-      "TextObject": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/PlainTextElement"
-          },
-          {
-            "$ref": "#/components/schemas/MrkdwnElement"
-          }
-        ]
-      },
       "TableBlock": {
         "type": "object",
         "properties": {
@@ -34249,6 +33681,31 @@
           "status"
         ]
       },
+      "URLSourceElement": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "url"
+            ],
+            "description": "The type of element. In this case `type` is always `url`."
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL type source."
+          },
+          "text": {
+            "type": "string",
+            "description": "Display text for the URL."
+          }
+        },
+        "required": [
+          "type",
+          "url",
+          "text"
+        ]
+      },
       "PlanBlock": {
         "type": "object",
         "properties": {
@@ -34344,6 +33801,891 @@
           "thumbnail_url",
           "alt_text",
           "title"
+        ]
+      },
+      "MarkdownTextChunk": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "markdown_text"
+            ]
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "text"
+        ]
+      },
+      "PlanUpdateChunk": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "plan_update"
+            ]
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title"
+        ]
+      },
+      "TaskUpdateChunk": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "task_update"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "error",
+              "pending",
+              "in_progress",
+              "complete"
+            ]
+          },
+          "details": {
+            "type": "string"
+          },
+          "output": {
+            "type": "string"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/URLSourceElement"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "title",
+          "status"
+        ]
+      },
+      "ChatAppendStreamResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "channel": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
+              },
+              "ts": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ChatDeleteArguments": {
+        "type": "object",
+        "properties": {
+          "ts": {
+            "type": "string",
+            "description": "Timestamp of the message."
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel ID for the message."
+          },
+          "as_user": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ],
+            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
+          },
+          "token": {
+            "type": "string",
+            "description": "Overridable authentication token bearing required scopes."
+          }
+        },
+        "required": [
+          "ts",
+          "channel"
+        ]
+      },
+      "ChatDeleteResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "channel": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
+              },
+              "ts": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ChatDeleteScheduledMessageArguments": {
+        "type": "object",
+        "properties": {
+          "scheduled_message_id": {
+            "type": "string",
+            "description": "The `scheduled_message_id` returned from call to [`chat.scheduleMessage`](https://docs.slack.dev/reference/methods/chat.scheduleMessage)."
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel ID for the message."
+          },
+          "as_user": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ],
+            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
+          },
+          "token": {
+            "type": "string",
+            "description": "Overridable authentication token bearing required scopes."
+          }
+        },
+        "required": [
+          "scheduled_message_id",
+          "channel"
+        ]
+      },
+      "ChatDeleteScheduledMessageResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ChatGetPermalinkArguments": {
+        "type": "object",
+        "properties": {
+          "message_ts": {
+            "type": "string",
+            "description": "Timestamp of the message."
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel ID for the message."
+          },
+          "token": {
+            "type": "string",
+            "description": "Overridable authentication token bearing required scopes."
+          }
+        },
+        "required": [
+          "message_ts",
+          "channel"
+        ]
+      },
+      "ChatGetPermalinkResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "channel": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "permalink": {
+                "type": "string"
+              },
+              "provided": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ChatMeMessageArguments": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string",
+            "description": "Channel ID for the message."
+          },
+          "text": {
+            "type": "string",
+            "description": "Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used\nas fallback text for notifications only."
+          },
+          "token": {
+            "type": "string",
+            "description": "Overridable authentication token bearing required scopes."
+          }
+        },
+        "required": [
+          "channel",
+          "text"
+        ]
+      },
+      "ChatMeMessageResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "channel": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
+              },
+              "ts": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ChatPostEphemeralArguments": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Parse"
+          },
+          {
+            "$ref": "#/components/schemas/LinkNames"
+          },
+          {
+            "$ref": "#/components/schemas/Partial_ThreadTS"
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string",
+                    "description": "`id` of the user who will receive the ephemeral message.\nThe user should be in the channel specified by the `channel` argument."
+                  }
+                },
+                "required": [
+                  "user"
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndText"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconEmoji"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndText"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconURL"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndText"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "as_user": {
+                            "type": "boolean",
+                            "enum": [
+                              true
+                            ],
+                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
+                          }
+                        },
+                        "required": [
+                          "as_user"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndBlocks"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconEmoji"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndBlocks"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconURL"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndBlocks"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "as_user": {
+                            "type": "boolean",
+                            "enum": [
+                              true
+                            ],
+                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
+                          }
+                        },
+                        "required": [
+                          "as_user"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndAttachments"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconEmoji"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndAttachments"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconURL"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndAttachments"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "as_user": {
+                            "type": "boolean",
+                            "enum": [
+                              true
+                            ],
+                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
+                          }
+                        },
+                        "required": [
+                          "as_user"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndMarkdownText"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconEmoji"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndMarkdownText"
+                      },
+                      {
+                        "$ref": "#/components/schemas/IconURL"
+                      },
+                      {
+                        "$ref": "#/components/schemas/Username"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/ChannelAndMarkdownText"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "as_user": {
+                            "type": "boolean",
+                            "enum": [
+                              true
+                            ],
+                            "description": "Pass `true` to act as the authed user with [`chat:write:user` scope](https://docs.slack.dev/reference/scopes/chat.write).\nBot users in this context are considered authed users. If unused or `false`, the message will be acted upon with\n[`chat:write:bot` scope](https://docs.slack.dev/reference/scopes/chat.write)."
+                          }
+                        },
+                        "required": [
+                          "as_user"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "ChannelAndText": {
+        "type": "object",
+        "properties": {
+          "channel": {
+            "type": "string",
+            "description": "Channel ID for the message."
+          },
+          "text": {
+            "type": "string",
+            "description": "Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used\nas fallback text for notifications only."
+          }
+        },
+        "required": [
+          "channel",
+          "text"
+        ]
+      },
+      "IconEmoji": {
+        "type": "object",
+        "properties": {
+          "as_user": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "icon_emoji": {
+            "type": "string",
+            "description": "Emoji to use as the icon for this message. Overrides `icon_url`.\nCan only be used with `as_user` set to `false`."
+          }
+        }
+      },
+      "Username": {
+        "type": "object",
+        "properties": {
+          "as_user": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "username": {
+            "type": "string",
+            "description": "Set your bot's username. Can only be used with `as_user` set to `false`."
+          }
+        }
+      },
+      "Parse": {
+        "type": "object",
+        "properties": {
+          "parse": {
+            "type": "string",
+            "enum": [
+              "none",
+              "full"
+            ],
+            "description": "Change how messages are treated. Defaults to `none`.\n[Formatting: Automatic parsing](https://docs.slack.dev/messaging/formatting-message-text)."
+          }
+        }
+      },
+      "LinkNames": {
+        "type": "object",
+        "properties": {
+          "link_names": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ],
+            "description": "Find and link channel names and usernames."
+          }
+        }
+      },
+      "Partial_ThreadTS": {
+        "type": "object",
+        "properties": {
+          "thread_ts": {
+            "type": "string",
+            "description": "Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts`\nvalue; use its parent's value instead."
+          }
+        }
+      },
+      "IconURL": {
+        "type": "object",
+        "properties": {
+          "as_user": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "icon_url": {
+            "type": "string",
+            "description": "URL to an image to use as the icon for this message. `icon_emoji` takes precendence over this field.\nCan only be used with `as_user` set to `false`."
+          }
+        }
+      },
+      "ChannelAndBlocks": {
+        "type": "object",
+        "properties": {
+          "blocks": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ActionsBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/Block"
+                },
+                {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/ContextBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/ContextActionsBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/DividerBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/FileBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/HeaderBlock"
+                },
+                {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "image"
+                          ],
+                          "description": "The type of block. For an image block, `type` is always `image`."
+                        },
+                        "alt_text": {
+                          "type": "string",
+                          "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
+                        },
+                        "title": {
+                          "$ref": "#/components/schemas/PlainTextElement",
+                          "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "alt_text"
+                      ]
+                    },
+                    {
+                      "$ref": "#/components/schemas/Block"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UrlImageObject"
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "image"
+                          ],
+                          "description": "The type of block. For an image block, `type` is always `image`."
+                        },
+                        "alt_text": {
+                          "type": "string",
+                          "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
+                        },
+                        "title": {
+                          "$ref": "#/components/schemas/PlainTextElement",
+                          "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "alt_text"
+                      ]
+                    },
+                    {
+                      "$ref": "#/components/schemas/Block"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SlackFileImageObject"
+                    }
+                  ]
+                },
+                {
+                  "$ref": "#/components/schemas/InputBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/MarkdownBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/RichTextBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/TableBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/TaskCardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/PlanBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/VideoBlock"
+                }
+              ]
+            },
+            "description": "An array of structured Blocks.\n[Blocks reference](https://docs.slack.dev/reference/block-kit/blocks)."
+          },
+          "channel": {
+            "type": "string",
+            "description": "Channel ID for the message."
+          },
+          "text": {
+            "type": "string",
+            "description": "Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used\nas fallback text for notifications only."
+          }
+        },
+        "required": [
+          "blocks",
+          "channel"
         ]
       },
       "ChannelAndAttachments": {
@@ -34496,123 +34838,6 @@
             "$ref": "#/components/schemas/MessageAttachmentPreview"
           }
         }
-      },
-      "AnyBlock": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/ActionsBlock"
-          },
-          {
-            "$ref": "#/components/schemas/Block"
-          },
-          {
-            "$ref": "#/components/schemas/ContextBlock"
-          },
-          {
-            "$ref": "#/components/schemas/ContextActionsBlock"
-          },
-          {
-            "$ref": "#/components/schemas/DividerBlock"
-          },
-          {
-            "$ref": "#/components/schemas/FileBlock"
-          },
-          {
-            "$ref": "#/components/schemas/HeaderBlock"
-          },
-          {
-            "allOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "image"
-                    ],
-                    "description": "The type of block. For an image block, `type` is always `image`."
-                  },
-                  "alt_text": {
-                    "type": "string",
-                    "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
-                  },
-                  "title": {
-                    "$ref": "#/components/schemas/PlainTextElement",
-                    "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
-                  }
-                },
-                "required": [
-                  "type",
-                  "alt_text"
-                ]
-              },
-              {
-                "$ref": "#/components/schemas/Block"
-              },
-              {
-                "$ref": "#/components/schemas/UrlImageObject"
-              }
-            ]
-          },
-          {
-            "allOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "image"
-                    ],
-                    "description": "The type of block. For an image block, `type` is always `image`."
-                  },
-                  "alt_text": {
-                    "type": "string",
-                    "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
-                  },
-                  "title": {
-                    "$ref": "#/components/schemas/PlainTextElement",
-                    "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
-                  }
-                },
-                "required": [
-                  "type",
-                  "alt_text"
-                ]
-              },
-              {
-                "$ref": "#/components/schemas/Block"
-              },
-              {
-                "$ref": "#/components/schemas/SlackFileImageObject"
-              }
-            ]
-          },
-          {
-            "$ref": "#/components/schemas/InputBlock"
-          },
-          {
-            "$ref": "#/components/schemas/MarkdownBlock"
-          },
-          {
-            "$ref": "#/components/schemas/RichTextBlock"
-          },
-          {
-            "$ref": "#/components/schemas/SectionBlock"
-          },
-          {
-            "$ref": "#/components/schemas/TableBlock"
-          },
-          {
-            "$ref": "#/components/schemas/TaskCardBlock"
-          },
-          {
-            "$ref": "#/components/schemas/PlanBlock"
-          },
-          {
-            "$ref": "#/components/schemas/VideoBlock"
-          }
-        ]
       },
       "MessageAttachmentField": {
         "type": "object",
@@ -44889,6 +45114,18 @@
             "type": "string",
             "description": "Specifies how tasks are displayed in the message. A \"timeline\" displays individual tasks\n with text and \"plan\" displays all tasks together."
           },
+          "icon_emoji": {
+            "type": "string",
+            "description": "Emoji to use as the icon for this message. Overrides `icon_url`.\ne.g. `:chart_with_upwards_trend:`"
+          },
+          "icon_url": {
+            "type": "string",
+            "description": "Image URL to use as the icon for this message.\ne.g. `http://lorempixel.com/48/48`"
+          },
+          "username": {
+            "type": "string",
+            "description": "The bot's username to display.\ne.g. `My Bot`"
+          },
           "token": {
             "type": "string",
             "description": "Overridable authentication token bearing required scopes."
@@ -44984,6 +45221,15 @@
                     },
                     {
                       "$ref": "#/components/schemas/Block"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AlertBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CardBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CarouselBlock"
                     },
                     {
                       "$ref": "#/components/schemas/ContextBlock"
@@ -45222,6 +45468,15 @@
                   "$ref": "#/components/schemas/Block"
                 },
                 {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
+                },
+                {
                   "$ref": "#/components/schemas/ContextBlock"
                 },
                 {
@@ -45372,6 +45627,15 @@
                     },
                     {
                       "$ref": "#/components/schemas/Block"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AlertBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CardBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CarouselBlock"
                     },
                     {
                       "$ref": "#/components/schemas/ContextBlock"
@@ -56646,6 +56910,15 @@
                     },
                     {
                       "$ref": "#/components/schemas/Block"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AlertBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CardBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CarouselBlock"
                     },
                     {
                       "$ref": "#/components/schemas/ContextBlock"
@@ -99303,6 +99576,15 @@
                   "$ref": "#/components/schemas/Block"
                 },
                 {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
+                },
+                {
                   "$ref": "#/components/schemas/ContextBlock"
                 },
                 {
@@ -101672,6 +101954,15 @@
                   "$ref": "#/components/schemas/Block"
                 },
                 {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
+                },
+                {
                   "$ref": "#/components/schemas/ContextBlock"
                 },
                 {
@@ -102219,6 +102510,15 @@
                 },
                 {
                   "$ref": "#/components/schemas/Block"
+                },
+                {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
                 },
                 {
                   "$ref": "#/components/schemas/ContextBlock"
@@ -102843,6 +103143,15 @@
                   "$ref": "#/components/schemas/Block"
                 },
                 {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
+                },
+                {
                   "$ref": "#/components/schemas/ContextBlock"
                 },
                 {
@@ -103397,6 +103706,15 @@
                   "$ref": "#/components/schemas/Block"
                 },
                 {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
+                },
+                {
                   "$ref": "#/components/schemas/ContextBlock"
                 },
                 {
@@ -103711,6 +104029,15 @@
                 },
                 {
                   "$ref": "#/components/schemas/Block"
+                },
+                {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
                 },
                 {
                   "$ref": "#/components/schemas/ContextBlock"
@@ -108390,6 +108717,15 @@
                 },
                 {
                   "$ref": "#/components/schemas/Block"
+                },
+                {
+                  "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CardBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CarouselBlock"
                 },
                 {
                   "$ref": "#/components/schemas/ContextBlock"
