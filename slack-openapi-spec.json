@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Slack Web API & Events API (Strict SDK Generation)",
-    "version": "2026-05-11",
+    "version": "2026-05-18",
     "description": "Generated 100% offline directly from the TypeScript AST of the official Node SDK. See the generator repo for details: https://github.com/connectstrata/slack-openapi-generator"
   },
   "externalDocs": {
@@ -57063,6 +57063,10 @@
           "id": {
             "type": "string",
             "description": "Encoded file ID."
+          },
+          "highlight_type": {
+            "type": "string",
+            "description": "Optional highlight type hint for the file. The upload processing job may overwrite this value.\n[https://docs.slack.dev/reference/methods/files.completeUploadExternal](https://docs.slack.dev/reference/methods/files.completeUploadExternal)"
           },
           "title": {
             "type": "string",
