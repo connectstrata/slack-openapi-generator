@@ -52,4 +52,5 @@ jobs:
           gh pr create \
             --title "🤖 Auto-update Slack OpenAPI spec" \
             --body "Automated update of the Slack OpenAPI spec based on the latest \`@slack/web-api\` SDK." \
-            --base main
+            --base main \
+            && gh pr merge --squash --auto
