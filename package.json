@@ -23,7 +23,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@slack/bolt": "^5.0.0",
+    "@slack/bolt": "^5.1.0",
     "@slack/types": "^3.1.0",
     "@slack/web-api": "^8.1.1",
     "ts-morph": "27.0.2",
