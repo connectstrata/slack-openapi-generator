@@ -23,6 +23,8 @@ The generated spec includes:
 
 Grab the latest generated file directly: [slack-openapi-spec.json](./slack-openapi-spec.json)
 
+Or, inspect it directly from your browser using [Swagger’s online editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/connectstrata/slack-openapi-generator/main/slack-openapi-spec.json).
+
 ## Running Locally
 
 Requires Node.js >= 18.
