@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Slack Web API & Events API (Strict SDK Generation)",
-    "version": "2026-10-26",
+    "version": "2026-11-02",
     "description": "Generated 100% offline directly from the TypeScript AST of the official Node SDK. See the generator repo for details: https://github.com/connectstrata/slack-openapi-generator"
   },
   "externalDocs": {
@@ -4423,6 +4423,80 @@
         }
       }
     },
+    "/api/apps.user.connection.bulkUpdate": {
+      "post": {
+        "operationId": "apps.user.connection.bulkUpdate",
+        "tags": [
+          "apps"
+        ],
+        "summary": "Updates the connection status between an app and many users in one call, for backfilling an existing user base.",
+        "description": "Updates the connection status between an app and many users in one call, for backfilling an existing user base.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppsUserConnectionBulkUpdateArguments"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/AppsUserConnectionBulkUpdateArguments"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response. Returns a strongly-typed `AppsUserConnectionBulkUpdateResponse` object. Note: Slack API errors also return HTTP 200 with `ok: false` and an `error` field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppsUserConnectionBulkUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/apps.user.connection.requestAuth": {
+      "post": {
+        "operationId": "apps.user.connection.requestAuth",
+        "tags": [
+          "apps"
+        ],
+        "summary": "Opens or updates a standardized authentication modal for the calling app.",
+        "description": "Opens or updates a standardized authentication modal for the calling app.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppsUserConnectionRequestAuthArguments"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/AppsUserConnectionRequestAuthArguments"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response. Returns a strongly-typed `AppsUserConnectionRequestAuthResponse` object. Note: Slack API errors also return HTTP 200 with `ok: false` and an `error` field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppsUserConnectionRequestAuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/apps.user.connection.update": {
       "post": {
         "operationId": "apps.user.connection.update",
@@ -5193,6 +5267,43 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CanvasesEditResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/canvases.getContent": {
+      "post": {
+        "operationId": "canvases.getContent",
+        "tags": [
+          "canvases"
+        ],
+        "summary": "Get the content of a canvas as markdown (default) or HTML.",
+        "description": "Get the content of a canvas as markdown (default) or HTML.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CanvasesGetContentArguments"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CanvasesGetContentArguments"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response. Returns a strongly-typed `CanvasesGetContentResponse` object. Note: Slack API errors also return HTTP 200 with `ok: false` and an `error` field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CanvasesGetContentResponse"
                 }
               }
             }
@@ -14503,6 +14614,126 @@
                     "properties": {
                       "event": {
                         "$ref": "#/components/schemas/UserChangeEvent"
+                      }
+                    },
+                    "required": [
+                      "event"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledge the event successfully."
+          }
+        }
+      }
+    },
+    "user_connection_connect": {
+      "post": {
+        "operationId": "webhook.user_connection_connect",
+        "tags": [
+          "events"
+        ],
+        "summary": "Slack sends a user_connection_connect event",
+        "description": "Triggered when the `user_connection_connect` event occurs in Slack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EnvelopedEvent"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "event": {
+                        "$ref": "#/components/schemas/UserConnectionConnectEvent"
+                      }
+                    },
+                    "required": [
+                      "event"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledge the event successfully."
+          }
+        }
+      }
+    },
+    "user_connection_disconnect": {
+      "post": {
+        "operationId": "webhook.user_connection_disconnect",
+        "tags": [
+          "events"
+        ],
+        "summary": "Slack sends a user_connection_disconnect event",
+        "description": "Triggered when the `user_connection_disconnect` event occurs in Slack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EnvelopedEvent"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "event": {
+                        "$ref": "#/components/schemas/UserConnectionDisconnectEvent"
+                      }
+                    },
+                    "required": [
+                      "event"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledge the event successfully."
+          }
+        }
+      }
+    },
+    "user_connection_status_requested": {
+      "post": {
+        "operationId": "webhook.user_connection_status_requested",
+        "tags": [
+          "events"
+        ],
+        "summary": "Slack sends a user_connection_status_requested event",
+        "description": "Triggered when the `user_connection_status_requested` event occurs in Slack.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/EnvelopedEvent"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "event": {
+                        "$ref": "#/components/schemas/UserConnectionStatusRequestedEvent"
                       }
                     },
                     "required": [
@@ -26679,6 +26910,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -26979,6 +27213,21 @@
           "accessibility_label": {
             "type": "string",
             "description": "A label for longer descriptive text about a button element. This label will be read out by screen\nreaders instead of the button `text` object. Maximum length for this field is 75 characters."
+          },
+          "agent_prompt": {
+            "type": "string",
+            "description": "A prompt sent to Slackbot when the button is clicked, if Slackbot AI is available to the user.\nMaximum length for this field is 4000 characters."
+          },
+          "agent_prompt_display": {
+            "type": "string",
+            "description": "Short text shown instead of the full `agent_prompt` in the user's Slackbot message. Requires\n`agent_prompt` and defaults to the button's `text`."
+          },
+          "visible_to_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of user IDs for which the button appears. If not provided, the button is visible to all users."
           },
           "action_id": {
             "type": "string",
@@ -29788,6 +30037,207 @@
           }
         ]
       },
+      "AuthProviderBlock": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "auth_provider"
+            ],
+            "description": "The type of block. For an auth provider block, `type` is always `auth_provider`."
+          },
+          "value": {
+            "type": "string",
+            "description": "Unique identifier for this provider within the app. Included in interaction payloads and used to\nderive the connect button `action_id` (`auth_provider_connect_<value>`). Maximum length for this field is 150\ncharacters."
+          },
+          "name": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Human-readable name of the provider in the form of a [PlainTextElement](PlainTextElement).\nMaximum length for the text in this field is 75 characters."
+          },
+          "is_connected": {
+            "type": "boolean",
+            "description": "Whether this provider is currently connected. Slack records this state for the user."
+          },
+          "description": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Brief description of what this connection enables in the form of a [PlainTextElement](PlainTextElement).\nMaximum length for the text in this field is 150 characters."
+          },
+          "icon_url": {
+            "type": "string",
+            "description": "URL for the provider icon image. Must be an HTTPS URL. Falls back to the app's avatar when absent.\nMaximum length for this field is 3000 characters."
+          },
+          "auth_url": {
+            "type": "string",
+            "description": "OAuth redirect URL opened when the user clicks Connect. Must be an HTTPS URL on a host listed in the\napp manifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters."
+          },
+          "disconnect_url": {
+            "type": "string",
+            "description": "URL opened when the user clicks Disconnect. Must be an HTTPS URL on a host listed in the app\nmanifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters."
+          },
+          "connected_identity": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Display name of the connected account in the form of a [PlainTextElement](PlainTextElement), shown when\n`is_connected` is `true`. Maximum length for the text in this field is 75 characters."
+          },
+          "connected_context": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Additional context about the connection in the form of a [PlainTextElement](PlainTextElement), e.g. the org or\nworkspace name. Maximum length for the text in this field is 75 characters."
+          },
+          "accessory": {
+            "$ref": "#/components/schemas/Overflow",
+            "description": "An [Overflow](Overflow) menu shown when connected, e.g. Disconnect or Re-authenticate."
+          },
+          "fallback": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/KnownBlock"
+            },
+            "description": "An array of stable [KnownBlock](KnownBlock) objects rendered by clients that don't recognize\n`auth_provider`, spliced into the parent blocks array."
+          },
+          "block_id": {
+            "type": "string",
+            "description": "A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.\nYou can use this `block_id` when you receive an interaction payload to\n[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).\nMaximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of\na message. If a message is updated, use a new `block_id`."
+          }
+        },
+        "required": [
+          "type",
+          "value",
+          "name",
+          "is_connected"
+        ]
+      },
+      "KnownBlock": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ActionsBlock"
+          },
+          {
+            "$ref": "#/components/schemas/AlertBlock"
+          },
+          {
+            "$ref": "#/components/schemas/AuthProviderBlock"
+          },
+          {
+            "$ref": "#/components/schemas/CardBlock"
+          },
+          {
+            "$ref": "#/components/schemas/CarouselBlock"
+          },
+          {
+            "$ref": "#/components/schemas/ContainerBlock"
+          },
+          {
+            "$ref": "#/components/schemas/ContextBlock"
+          },
+          {
+            "$ref": "#/components/schemas/ContextActionsBlock"
+          },
+          {
+            "$ref": "#/components/schemas/DataTableBlock"
+          },
+          {
+            "$ref": "#/components/schemas/DividerBlock"
+          },
+          {
+            "$ref": "#/components/schemas/FileBlock"
+          },
+          {
+            "$ref": "#/components/schemas/HeaderBlock"
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image"
+                    ],
+                    "description": "The type of block. For an image block, `type` is always `image`."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
+                  },
+                  "title": {
+                    "$ref": "#/components/schemas/PlainTextElement",
+                    "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
+                  }
+                },
+                "required": [
+                  "type",
+                  "alt_text"
+                ]
+              },
+              {
+                "$ref": "#/components/schemas/Block"
+              },
+              {
+                "$ref": "#/components/schemas/UrlImageObject"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "image"
+                    ],
+                    "description": "The type of block. For an image block, `type` is always `image`."
+                  },
+                  "alt_text": {
+                    "type": "string",
+                    "description": "A plain-text summary of the image. This should not contain any markup.\nMaximum length for this field is 2000 characters."
+                  },
+                  "title": {
+                    "$ref": "#/components/schemas/PlainTextElement",
+                    "description": "An optional title for the image in the form of a [PlainTextElement](PlainTextElement) object.\nMaximum length for the text in this field is 2000 characters."
+                  }
+                },
+                "required": [
+                  "type",
+                  "alt_text"
+                ]
+              },
+              {
+                "$ref": "#/components/schemas/Block"
+              },
+              {
+                "$ref": "#/components/schemas/SlackFileImageObject"
+              }
+            ]
+          },
+          {
+            "$ref": "#/components/schemas/InputBlock"
+          },
+          {
+            "$ref": "#/components/schemas/MarkdownBlock"
+          },
+          {
+            "$ref": "#/components/schemas/RichTextBlock"
+          },
+          {
+            "$ref": "#/components/schemas/SectionBlock"
+          },
+          {
+            "$ref": "#/components/schemas/TableBlock"
+          },
+          {
+            "$ref": "#/components/schemas/TaskCardBlock"
+          },
+          {
+            "$ref": "#/components/schemas/PlanBlock"
+          },
+          {
+            "$ref": "#/components/schemas/VideoBlock"
+          }
+        ]
+      },
       "CardBlock": {
         "type": "object",
         "properties": {
@@ -32181,7 +32631,7 @@
           },
           "display_information": {
             "$ref": "#/components/schemas/ManifestDisplayInformation",
-            "description": "A group of settings that describe parts of an app's appearance within Slack. If you're distributing\nthe app via the Slack Marketplace, read our [listing guidelines](https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace) to pick the best values for these settings."
+            "description": "A group of settings that describe parts of an app's appearance within Slack. If you're distributing\nthe app via the Slack Marketplace, read our [listing guidelines](https://docs.slack.dev/slack-marketplace/slack-marketplace-app-guidelines-and-requirements) to pick the best values for these settings."
           },
           "features": {
             "$ref": "#/components/schemas/ManifestFeatures",
@@ -32261,6 +32711,10 @@
             "$ref": "#/components/schemas/ManifestBotUser",
             "description": "A subgroup of settings that describe [bot user](https://docs.slack.dev/legacy/legacy-bot-users) configuration.\n[Legacy bots](https://docs.slack.dev/legacy/legacy-bot-users)."
           },
+          "code_channels": {
+            "$ref": "#/components/schemas/ManifestCodeChannels",
+            "description": "A subgroup of settings that describe [code channels](https://docs.slack.dev/ai/slack-code)\nconfiguration.\n[Enabling code channels](https://docs.slack.dev/ai/slack-code#enabling-code-channels)."
+          },
           "shortcuts": {
             "type": "array",
             "items": {
@@ -32281,6 +32735,10 @@
               "type": "string"
             },
             "description": "An array of strings containing valid unfurl domains to register. A maximum of 5 unfurl domains can be\nincluded in this array.\n[Link unfurling: configuring domains](https://docs.slack.dev/messaging/unfurling-links-in-messages)."
+          },
+          "user_connections": {
+            "$ref": "#/components/schemas/ManifestUserConnections",
+            "description": "A subgroup of settings that describe [standardized app authentication](https://docs.slack.dev/authentication/standardized-auth)\nconfiguration."
           }
         }
       },
@@ -32445,6 +32903,32 @@
           "display_name"
         ]
       },
+      "ManifestCodeChannels": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ],
+            "description": "A boolean that specifies whether or not code channels are enabled for the app."
+          },
+          "slash_command_url": {
+            "type": "string",
+            "description": "A string containing the `https` URL where Slack delivers invocations of your agent's\n[runtime-registered slash commands](https://docs.slack.dev/ai/slack-code/agent-slash-commands). Not needed for\nSocket Mode or hosted apps. Maximum length is 3000 characters.\n[Agent slash commands](https://docs.slack.dev/ai/slack-code/agent-slash-commands)."
+          }
+        }
+      },
       "ManifestShortcut": {
         "type": "object",
         "properties": {
@@ -32516,6 +33000,26 @@
         "required": [
           "command",
           "description"
+        ]
+      },
+      "ManifestUserConnections": {
+        "type": "object",
+        "properties": {
+          "is_enabled": {
+            "type": "boolean",
+            "description": "A boolean that specifies whether or not standardized app authentication is enabled for the app."
+          },
+          "auth_hosts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "An array of strings containing the hosts, without a scheme, that a provider's `auth_url` and\n`disconnect_url` may use. Subdomains of a listed host are also allowed. The hosts are kept while `is_enabled` is\nfalse, so turning standardized app authentication off only flips `is_enabled`."
+          }
+        },
+        "required": [
+          "is_enabled",
+          "auth_hosts"
         ]
       },
       "ManifestOAuthConfig": {
@@ -32600,6 +33104,7 @@
           "chat:write",
           "chat:write.customize",
           "chat:write.public",
+          "code_channels:manage",
           "commands",
           "conversations.connect:manage",
           "conversations.connect:read",
@@ -32943,6 +33448,8 @@
           "tokens_revoked",
           "url_verification",
           "user_change",
+          "user_connection",
+          "user_connection_status_requested",
           "user_huddle_changed",
           "user_profile_changed",
           "user_resource_denied",
@@ -34087,6 +34594,284 @@
           }
         ]
       },
+      "AppsUserConnectionBulkUpdateArguments": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/UserConnectionConnectedUserIDs"
+          },
+          {
+            "$ref": "#/components/schemas/UserConnectionDisconnectedUserIDs"
+          }
+        ]
+      },
+      "UserConnectionConnectedUserIDs": {
+        "type": "object",
+        "properties": {
+          "connected_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of users connected to the app.\nOne of `connected_user_ids` or `disconnected_user_ids` is required; combined they may not exceed 1000."
+          },
+          "disconnected_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "connected_user_ids"
+        ]
+      },
+      "UserConnectionDisconnectedUserIDs": {
+        "type": "object",
+        "properties": {
+          "connected_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "disconnected_user_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "IDs of users not connected to the app.\nOne of `connected_user_ids` or `disconnected_user_ids` is required; combined they may not exceed 1000."
+          }
+        },
+        "required": [
+          "disconnected_user_ids"
+        ]
+      },
+      "AppsUserConnectionBulkUpdateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "changed_user_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "error": {
+                "type": "string"
+              },
+              "failures": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Failure"
+                }
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
+              },
+              "response_metadata": {
+                "$ref": "#/components/schemas/ResponseMetadata"
+              },
+              "warning": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "Failure": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          }
+        }
+      },
+      "AppsUserConnectionRequestAuthArguments": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "primary_provider": {
+                "$ref": "#/components/schemas/UserConnectionPrimaryProvider",
+                "description": "The connection to render. Its `icon_url` defaults to the app's own avatar when omitted."
+              }
+            },
+            "required": [
+              "primary_provider"
+            ]
+          },
+          {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserConnectionTriggerID"
+              },
+              {
+                "$ref": "#/components/schemas/UserConnectionUserID"
+              }
+            ]
+          }
+        ]
+      },
+      "UserConnectionTriggerID": {
+        "type": "object",
+        "properties": {
+          "trigger_id": {
+            "type": "string",
+            "description": "The `trigger_id` from the `user_connection` interactive callback. Opens a new modal."
+          }
+        },
+        "required": [
+          "trigger_id"
+        ]
+      },
+      "UserConnectionPrimaryProvider": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Unique identifier for this provider within the app. Included in interaction payloads and used to\nderive the connect button `action_id` (`auth_provider_connect_<value>`)."
+          },
+          "name": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Human-readable name of the provider."
+          },
+          "is_connected": {
+            "type": "boolean",
+            "description": "Whether this provider is currently connected or disconnected. Slack records this state for the user,\nso an omitted value would be indistinguishable from an explicit `false` and silently mark the user disconnected."
+          },
+          "description": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Brief description of what this connection enables."
+          },
+          "icon_url": {
+            "type": "string",
+            "description": "URL for the provider icon image. Must be HTTPs format. Falls back to the app's avatar when absent."
+          },
+          "auth_url": {
+            "type": "string",
+            "description": "OAuth redirect URL opened when the user clicks **Connect**. Must be HTTPs format."
+          },
+          "disconnect_url": {
+            "type": "string",
+            "description": "URL opened when the user clicks **Disconnect**. Must be HTTPs format on a registered auth host."
+          },
+          "connected_identity": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Display name of the connected account, shown when `is_connected` is `true`."
+          },
+          "connected_context": {
+            "$ref": "#/components/schemas/PlainTextElement",
+            "description": "Additional context about the connection (e.g., org or workspace name)."
+          },
+          "accessory": {
+            "$ref": "#/components/schemas/Overflow",
+            "description": "Overflow menu shown when connected (e.g., Disconnect, Re-authenticate)."
+          }
+        },
+        "required": [
+          "value",
+          "name",
+          "is_connected"
+        ]
+      },
+      "UserConnectionUserID": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "The user whose auth modal to update. Required when `trigger_id` is omitted, and ignored when it is\npresent."
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      },
+      "AppsUserConnectionRequestAuthResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
+              },
+              "response_metadata": {
+                "$ref": "#/components/schemas/ResponseMetadata5"
+              },
+              "warning": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "ResponseMetadata5": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "AppsUserConnectionUpdateArguments": {
         "type": "object",
         "properties": {
@@ -34799,6 +35584,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -34936,6 +35724,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/AlertBlock"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AuthProviderBlock"
                     },
                     {
                       "$ref": "#/components/schemas/CardBlock"
@@ -35221,6 +36012,9 @@
           },
           {
             "$ref": "#/components/schemas/AlertBlock"
+          },
+          {
+            "$ref": "#/components/schemas/AuthProviderBlock"
           },
           {
             "$ref": "#/components/schemas/CardBlock"
@@ -36610,7 +37404,7 @@
                 "type": "string"
               },
               "response_metadata": {
-                "$ref": "#/components/schemas/ResponseMetadata5"
+                "$ref": "#/components/schemas/ResponseMetadata6"
               },
               "warning": {
                 "type": "string"
@@ -36619,7 +37413,7 @@
           }
         ]
       },
-      "ResponseMetadata5": {
+      "ResponseMetadata6": {
         "type": "object"
       },
       "CanvasesAccessSetArguments": {
@@ -36707,7 +37501,7 @@
                 "type": "string"
               },
               "response_metadata": {
-                "$ref": "#/components/schemas/ResponseMetadata5"
+                "$ref": "#/components/schemas/ResponseMetadata6"
               },
               "warning": {
                 "type": "string"
@@ -36864,7 +37658,7 @@
                 "type": "string"
               },
               "response_metadata": {
-                "$ref": "#/components/schemas/ResponseMetadata5"
+                "$ref": "#/components/schemas/ResponseMetadata6"
               },
               "warning": {
                 "type": "string"
@@ -37115,6 +37909,73 @@
               },
               "response_metadata": {
                 "$ref": "#/components/schemas/ResponseMetadata"
+              },
+              "warning": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "CanvasesGetContentArguments": {
+        "type": "object",
+        "properties": {
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "markdown",
+              "html"
+            ],
+            "description": "Format in which to return the canvas content. Defaults to markdown."
+          },
+          "canvas_id": {
+            "type": "string",
+            "description": "Encoded ID of the canvas."
+          },
+          "token": {
+            "type": "string",
+            "description": "Overridable authentication token bearing required scopes."
+          }
+        },
+        "required": [
+          "canvas_id"
+        ]
+      },
+      "CanvasesGetContentResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WebAPICallResult"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              },
+              "needed": {
+                "type": "string"
+              },
+              "ok": {
+                "anyOf": [
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
+              },
+              "provided": {
+                "type": "string"
               },
               "warning": {
                 "type": "string"
@@ -38114,6 +38975,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
                 },
                 {
                   "$ref": "#/components/schemas/CardBlock"
@@ -49263,6 +50127,9 @@
                       "$ref": "#/components/schemas/AlertBlock"
                     },
                     {
+                      "$ref": "#/components/schemas/AuthProviderBlock"
+                    },
+                    {
                       "$ref": "#/components/schemas/CardBlock"
                     },
                     {
@@ -51179,6 +52046,9 @@
                       "$ref": "#/components/schemas/AlertBlock"
                     },
                     {
+                      "$ref": "#/components/schemas/AuthProviderBlock"
+                    },
+                    {
                       "$ref": "#/components/schemas/CardBlock"
                     },
                     {
@@ -51455,7 +52325,7 @@
                 "type": "string"
               },
               "response_metadata": {
-                "$ref": "#/components/schemas/ResponseMetadata6"
+                "$ref": "#/components/schemas/ResponseMetadata5"
               },
               "warning": {
                 "type": "string"
@@ -51463,23 +52333,6 @@
             }
           }
         ]
-      },
-      "ResponseMetadata6": {
-        "type": "object",
-        "properties": {
-          "messages": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "warnings": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
       },
       "ChatUpdateArguments": {
         "allOf": [
@@ -63284,6 +64137,9 @@
                       "$ref": "#/components/schemas/AlertBlock"
                     },
                     {
+                      "$ref": "#/components/schemas/AuthProviderBlock"
+                    },
+                    {
                       "$ref": "#/components/schemas/CardBlock"
                     },
                     {
@@ -63968,9 +64824,13 @@
             "type": "number",
             "description": "Size in bytes of the file being uploaded."
           },
-          "alt_text": {
+          "alt_txt": {
             "type": "string",
             "description": "Description of image for screen-reader."
+          },
+          "alt_text": {
+            "type": "string",
+            "deprecated": true
           },
           "snippet_type": {
             "type": "string",
@@ -92988,6 +93848,23 @@
             "type": "string",
             "description": "Query by domain instead of team (only when `team` is null). This only works for domains in the same\nenterprise as the querying team token.\nThis also expects the domain to belong to a team and not the enterprise itself."
           },
+          "include_slackbot_availability": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ],
+            "description": "Include advisory Slackbot availability for the caller's own workspace or organization.\nDefaults to false. Requires the existing `team:read` scope.\n[`team.info` API reference](https://docs.slack.dev/reference/methods/team.info)."
+          },
           "team": {
             "type": "string",
             "description": "Team to get info about; if omitted, will return information about the current team."
@@ -93122,6 +93999,9 @@
             "type": "string"
           },
           "pay_prod_cur": {
+            "type": "string"
+          },
+          "slackbot_availability": {
             "type": "string"
           },
           "sso_provider": {
@@ -103021,6 +103901,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -105543,6 +106426,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -106218,6 +107104,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -106855,6 +107744,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -107424,6 +108316,9 @@
                   "$ref": "#/components/schemas/AlertBlock"
                 },
                 {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
+                },
+                {
                   "$ref": "#/components/schemas/CardBlock"
                 },
                 {
@@ -107545,7 +108440,48 @@
               ]
             }
           },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/File8"
+            }
+          },
+          "upload": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ]
+          },
+          "display_as_bot": {
+            "anyOf": [
+              {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              }
+            ]
+          },
           "user": {
+            "type": "string"
+          },
+          "parent_user_id": {
             "type": "string"
           },
           "ts": {
@@ -107753,6 +108689,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
                 },
                 {
                   "$ref": "#/components/schemas/CardBlock"
@@ -110082,6 +111021,93 @@
           "type",
           "user",
           "cache_ts",
+          "event_ts"
+        ]
+      },
+      "UserConnectionConnectEvent": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "user_connection"
+            ]
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "connect"
+            ]
+          },
+          "user": {
+            "type": "string"
+          },
+          "trigger_id": {
+            "type": "string"
+          },
+          "event_ts": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "subtype",
+          "user",
+          "trigger_id",
+          "event_ts"
+        ]
+      },
+      "UserConnectionDisconnectEvent": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "user_connection"
+            ]
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "disconnect"
+            ]
+          },
+          "user": {
+            "type": "string"
+          },
+          "enterprise_id": {
+            "type": "string"
+          },
+          "event_ts": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "subtype",
+          "user",
+          "event_ts"
+        ]
+      },
+      "UserConnectionStatusRequestedEvent": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "user_connection_status_requested"
+            ]
+          },
+          "user": {
+            "type": "string"
+          },
+          "event_ts": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "user",
           "event_ts"
         ]
       },
@@ -112447,6 +113473,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/AlertBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/AuthProviderBlock"
                 },
                 {
                   "$ref": "#/components/schemas/CardBlock"
