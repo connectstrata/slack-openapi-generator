@@ -53,4 +53,4 @@ jobs:
             --title "🤖 Auto-update Slack OpenAPI spec" \
             --body "Automated update of the Slack OpenAPI spec based on the latest \`@slack/web-api\` SDK." \
             --base main \
-            && gh pr merge --squash --auto
+            && (gh pr merge --squash --auto || gh pr merge --squash)
