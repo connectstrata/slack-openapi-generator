@@ -25,7 +25,7 @@
   "dependencies": {
     "@slack/bolt": "^5.1.0",
     "@slack/types": "^3.3.0",
-    "@slack/web-api": "^8.3.0",
+    "@slack/web-api": "^8.4.0",
     "ts-morph": "27.0.2",
     "typescript": "^5.0.0"
   },
