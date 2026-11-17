@@ -693,3 +693,20 @@ describe('type mapping integration', () => {
     });
   });
 });
+
+describe('collectTags', () => {
+  it('builds a sorted top-level tag list from Web API operations', () => {
+    const paths = {
+      '/api/chat.postMessage': { post: { tags: ['chat'] } },
+      '/api/admin.apps.approve': { post: { tags: ['admin'] } },
+      '/api/admin.users.list': { post: { tags: ['admin'] } },
+    };
+    const tags = gen.collectTags(paths);
+    expect(tags.map((t) => t.name)).toEqual(['admin', 'chat']);
+    expect(tags[0].description).toContain('/api/admin.');
+  });
+
+  it('handles missing paths', () => {
+    expect(gen.collectTags(undefined)).toEqual([]);
+  });
+});

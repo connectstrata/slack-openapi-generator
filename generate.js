@@ -756,6 +756,25 @@ function parseEventsApi(project) {
   return webhooks;
 }
 
+// Collect every tag used by Web API operations into a sorted top-level tag list, so OpenAPI
+// viewers group endpoints by namespace (admin, agents, chat, ...). Webhook tags are left out:
+// viewers like Swagger UI render webhooks in their own section, so declaring them here would
+// show up as empty tag groups.
+function collectTags(paths) {
+  const tags = new Set();
+  for (const item of Object.values(paths || {})) {
+    for (const op of Object.values(item)) {
+      for (const tag of op.tags || []) tags.add(tag);
+    }
+  }
+  return [...tags]
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => ({
+      name,
+      description: `Web API methods under \`${name}.*\` (\`/api/${name}.*\`)`,
+    }));
+}
+
 // Assemble the final OpenAPI 3.1 spec from paths, webhooks, and the component registry.
 function assembleSpec(paths, webhooks) {
   // Remove SDK-only types that may have been registered via a different code path
@@ -777,6 +796,7 @@ function assembleSpec(paths, webhooks) {
     },
     servers: [{ url: 'https://slack.com' }],
     security: [{ slackAuth: [] }],
+    tags: collectTags(paths),
     paths,
     webhooks,
     components: {
@@ -840,6 +860,7 @@ module.exports = {
   resolveTypeName,
   mapTsTypeToOpenApi,
   hasBinaryFields,
+  collectTags,
   // Allow tests to swap the module-level registry
   get registry() {
     return registry;
