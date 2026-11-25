@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Slack Web API & Events API (Strict SDK Generation)",
-    "version": "2026-11-23",
+    "version": "2026-11-25",
     "description": "Generated 100% offline directly from the TypeScript AST of the official Node SDK. See the generator repo for details: https://github.com/connectstrata/slack-openapi-generator"
   },
   "externalDocs": {
@@ -17,6 +17,152 @@
   "security": [
     {
       "slackAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "admin",
+      "description": "Web API methods under `admin.*` (`/api/admin.*`)"
+    },
+    {
+      "name": "agents",
+      "description": "Web API methods under `agents.*` (`/api/agents.*`)"
+    },
+    {
+      "name": "api",
+      "description": "Web API methods under `api.*` (`/api/api.*`)"
+    },
+    {
+      "name": "apps",
+      "description": "Web API methods under `apps.*` (`/api/apps.*`)"
+    },
+    {
+      "name": "assistant",
+      "description": "Web API methods under `assistant.*` (`/api/assistant.*`)"
+    },
+    {
+      "name": "auth",
+      "description": "Web API methods under `auth.*` (`/api/auth.*`)"
+    },
+    {
+      "name": "blocks",
+      "description": "Web API methods under `blocks.*` (`/api/blocks.*`)"
+    },
+    {
+      "name": "bookmarks",
+      "description": "Web API methods under `bookmarks.*` (`/api/bookmarks.*`)"
+    },
+    {
+      "name": "bots",
+      "description": "Web API methods under `bots.*` (`/api/bots.*`)"
+    },
+    {
+      "name": "calls",
+      "description": "Web API methods under `calls.*` (`/api/calls.*`)"
+    },
+    {
+      "name": "canvases",
+      "description": "Web API methods under `canvases.*` (`/api/canvases.*`)"
+    },
+    {
+      "name": "chat",
+      "description": "Web API methods under `chat.*` (`/api/chat.*`)"
+    },
+    {
+      "name": "conversations",
+      "description": "Web API methods under `conversations.*` (`/api/conversations.*`)"
+    },
+    {
+      "name": "dialog",
+      "description": "Web API methods under `dialog.*` (`/api/dialog.*`)"
+    },
+    {
+      "name": "dnd",
+      "description": "Web API methods under `dnd.*` (`/api/dnd.*`)"
+    },
+    {
+      "name": "emoji",
+      "description": "Web API methods under `emoji.*` (`/api/emoji.*`)"
+    },
+    {
+      "name": "entity",
+      "description": "Web API methods under `entity.*` (`/api/entity.*`)"
+    },
+    {
+      "name": "files",
+      "description": "Web API methods under `files.*` (`/api/files.*`)"
+    },
+    {
+      "name": "functions",
+      "description": "Web API methods under `functions.*` (`/api/functions.*`)"
+    },
+    {
+      "name": "migration",
+      "description": "Web API methods under `migration.*` (`/api/migration.*`)"
+    },
+    {
+      "name": "oauth",
+      "description": "Web API methods under `oauth.*` (`/api/oauth.*`)"
+    },
+    {
+      "name": "openid",
+      "description": "Web API methods under `openid.*` (`/api/openid.*`)"
+    },
+    {
+      "name": "pins",
+      "description": "Web API methods under `pins.*` (`/api/pins.*`)"
+    },
+    {
+      "name": "reactions",
+      "description": "Web API methods under `reactions.*` (`/api/reactions.*`)"
+    },
+    {
+      "name": "reminders",
+      "description": "Web API methods under `reminders.*` (`/api/reminders.*`)"
+    },
+    {
+      "name": "rtm",
+      "description": "Web API methods under `rtm.*` (`/api/rtm.*`)"
+    },
+    {
+      "name": "search",
+      "description": "Web API methods under `search.*` (`/api/search.*`)"
+    },
+    {
+      "name": "slackbot",
+      "description": "Web API methods under `slackbot.*` (`/api/slackbot.*`)"
+    },
+    {
+      "name": "slackLists",
+      "description": "Web API methods under `slackLists.*` (`/api/slackLists.*`)"
+    },
+    {
+      "name": "stars",
+      "description": "Web API methods under `stars.*` (`/api/stars.*`)"
+    },
+    {
+      "name": "team",
+      "description": "Web API methods under `team.*` (`/api/team.*`)"
+    },
+    {
+      "name": "tooling",
+      "description": "Web API methods under `tooling.*` (`/api/tooling.*`)"
+    },
+    {
+      "name": "usergroups",
+      "description": "Web API methods under `usergroups.*` (`/api/usergroups.*`)"
+    },
+    {
+      "name": "users",
+      "description": "Web API methods under `users.*` (`/api/users.*`)"
+    },
+    {
+      "name": "views",
+      "description": "Web API methods under `views.*` (`/api/views.*`)"
+    },
+    {
+      "name": "workflows",
+      "description": "Web API methods under `workflows.*` (`/api/workflows.*`)"
     }
   ],
   "paths": {
